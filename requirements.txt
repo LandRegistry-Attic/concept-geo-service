@@ -1,0 +1,8 @@
+flask
+Flask-BasicAuth
+flask-restful
+gunicorn==18.0
+psycopg2
+Flask-SQLAlchemy
+GeoAlchemy2==0.2.4
+geojson==1.0.6
