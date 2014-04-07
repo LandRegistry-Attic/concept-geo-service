@@ -2,7 +2,7 @@ import os
 import app
 import unittest
 import tempfile
-
+import json
 
 class GeoServiceTestCase(unittest.TestCase):
 
