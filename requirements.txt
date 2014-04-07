@@ -1,8 +1,5 @@
-flask
-Flask-BasicAuth
-flask-restful
+Django==1.6.2
 gunicorn==18.0
 psycopg2
-Flask-SQLAlchemy
-GeoAlchemy2==0.2.4
 geojson==1.0.6
+South==0.8.4
