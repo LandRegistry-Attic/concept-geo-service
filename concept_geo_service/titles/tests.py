@@ -39,6 +39,39 @@ class TitleResourceTest(TestCase):
             }
         }), content_type='application/json')
 
+        rv = self.client.post('/titles-revisions', data=json.dumps({
+        "content": {
+            "title_number": "AB1235",
+            "address": "123 Russia St",
+            "extent": {
+                "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      102.65625,
+                      68.65655498475735
+                    ],
+                    [
+                      112.5,
+                      67.06743335108298
+                    ],
+                    [
+                      114.60937499999999,
+                      70.61261423801925
+                    ],
+                    [
+                      102.65625,
+                      68.65655498475735
+                    ]
+                  ]
+                ]
+            }
+                }
+            }
+        }), content_type='application/json')
+
+
         rv = self.client.get('/titles?partially_contained_by={"type": "Polygon", "coordinates": [[[16.5234375, 15.284185114076445], [2.4609375, 13.239945499286312], [-8.4375, 19.973348786110602], [16.5234375,15.284185114076445]]]}')
 
         self.assertEqual(json.loads(rv.content), {
