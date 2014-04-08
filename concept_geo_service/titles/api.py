@@ -1,4 +1,5 @@
 from restless.dj import DjangoResource
+from django.contrib.gis.measure import Distance, D
 import models
 import json
 
@@ -40,8 +41,8 @@ class TitlesResource(DjangoResource):
         result = None
         if partially_contained_by:
             result =  models.Title.objects.filter(extent__intersects=partially_contained_by)
-
+        elif near:
+            return models.Title.objects.filter(extent__distance_lte=(near, D(km=50))).distance(near).order_by('distance')[:25]
         else:
             result = models.Title.objects.all()
         return result
-
