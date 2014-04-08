@@ -53,14 +53,17 @@ WSGI_APPLICATION = 'concept_geo_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# Heroku
+if 'DATABASE_URL' in os.environ:
+    DATABASE_URL = os.environ['DATABASE_URL'].replace('postgres://', 'postgis://')
 # Fig
-if 'GEODB_1_PORT_5432_TCP' in os.environ:
-    DEFAULT_DATABASE = 'postgis://docker:docker@%s/geo' % os.environ['GEODB_1_PORT_5432_TCP'].replace('tcp://', '')
+elif 'GEODB_1_PORT_5432_TCP' in os.environ:
+    DATABASE_URL = 'postgis://docker:docker@%s/geo' % os.environ['GEODB_1_PORT_5432_TCP'].replace('tcp://', '')
 # Travis
 else:
-    DEFAULT_DATABASE = 'postgis:///geo'
+    DATABASE_URL = 'postgis:///geo'
 DATABASES = {
-    'default': dj_database_url.config(default=DEFAULT_DATABASE)
+    'default': dj_database_url.parse(DATABASE_URL)
 }
 
 # Internationalization
