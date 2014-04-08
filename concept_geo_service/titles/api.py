@@ -1,5 +1,6 @@
 from restless.dj import DjangoResource
 from django.contrib.gis.measure import Distance, D
+from django.http import HttpResponse
 import models
 import json
 
@@ -46,3 +47,11 @@ class TitlesResource(DjangoResource):
         else:
             result = models.Title.objects.all()
         return result
+
+    def build_response(self, data, status=200):
+        if 'callback' in self.request.GET:
+            data = '%s(%s)' % (self.request.GET['callback'], data)
+        resp = HttpResponse(data, content_type='application/json')
+        resp.status_code = status
+        return resp
+
