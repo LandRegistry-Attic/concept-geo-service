@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'concept_geo_service.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^titles/', include(TitlesResource.urls()))
+    url(r'^titles', include(TitlesResource.urls())),
+    url(r'^titles-revisions', include(TitlesResource.urls()))
 
 )
