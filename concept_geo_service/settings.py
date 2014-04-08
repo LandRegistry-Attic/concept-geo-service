@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+import dj_database_url
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -53,15 +54,14 @@ WSGI_APPLICATION = 'concept_geo_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# Fig
+if 'GEODB_1_PORT_5432_TCP' in os.environ:
+    DEFAULT_DATABASE = 'postgis://docker:docker@%s/geo' % os.environ['GEODB_1_PORT_5432_TCP'].replace('tcp://', '')
+# Travis
+else:
+    DEFAULT_DATABASE = 'postgis:///geo'
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geo',
-        'USER': 'docker',
-        'PASSWORD': 'docker',
-        'HOST': os.environ.get('GEODB_1_PORT_5432_TCP_ADDR'),
-        'PORT': os.environ.get('GEODB_1_PORT_5432_TCP_PORT'),
-    }
+    'default': dj_database_url.config(default=DEFAULT_DATABASE)
 }
 
 # Internationalization
