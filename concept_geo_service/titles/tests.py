@@ -39,6 +39,8 @@ class TitleResourceTest(TestCase):
             }
         }), content_type='application/json')
 
+        self.assertEqual(rv.status_code, 201)
+
         rv = self.client.post('/titles-revisions', data=json.dumps({
         "content": {
             "title_number": "AB1235",
@@ -70,6 +72,7 @@ class TitleResourceTest(TestCase):
                 }
             }
         }), content_type='application/json')
+        self.assertEqual(rv.status_code, 201)
 
         rv = self.client.get('/titles?partially_contained_by={"type": "Polygon", "coordinates": [[[16.5234375, 15.284185114076445], [2.4609375, 13.239945499286312], [-8.4375, 19.973348786110602], [16.5234375,15.284185114076445]]]}')
 
