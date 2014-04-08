@@ -6,7 +6,6 @@ import json
 class TitlesResource(DjangoResource):
 
     fields = {
-        'extent': 'extent',
         'content': 'content'
         }
 
