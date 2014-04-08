@@ -4,4 +4,5 @@ gunicorn==18.0
 psycopg2
 geojson==1.0.6
 South==0.8.4
+raven>=3
 restless==1.4.0
