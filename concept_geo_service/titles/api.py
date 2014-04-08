@@ -19,6 +19,7 @@ class TitlesResource(DjangoResource):
 
         #create a new entry
         title = models.Title()
+        title.title_number = json.dumps(self.data['content']['title_number'])
         title.content = json.dumps(self.data['content'])
         title.extent = json.dumps(self.data['content']['extent']['geometry'])
 

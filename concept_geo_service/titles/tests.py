@@ -71,7 +71,6 @@ class TitleResourceTest(TestCase):
             }
         }), content_type='application/json')
 
-
         rv = self.client.get('/titles?partially_contained_by={"type": "Polygon", "coordinates": [[[16.5234375, 15.284185114076445], [2.4609375, 13.239945499286312], [-8.4375, 19.973348786110602], [16.5234375,15.284185114076445]]]}')
 
         self.assertEqual(json.loads(rv.content), {
