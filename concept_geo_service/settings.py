@@ -12,19 +12,19 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+import dj_database_url
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2ue!jv99=pf$=-4s=336sy%al+0@0*i1%ea&7@v9rlo-@^w2(r'
+SECRET_KEY = os.environ.get('SECRET_KEY', '2ue!jv99=pf$=-4s=336sy%al+0@0*i1%ea&7@v9rlo-@^w2(r')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DEBUG', 'True') == 'True')
+TEMPLATE_DEBUG = DEBUG
 
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = filter(None, os.environ.get('ALLOWED_HOSTS', '').split(','))
 
 
 # Application definition
@@ -53,15 +53,17 @@ WSGI_APPLICATION = 'concept_geo_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# Heroku
+if 'DATABASE_URL' in os.environ:
+    DATABASE_URL = os.environ['DATABASE_URL'].replace('postgres://', 'postgis://')
+# Fig
+elif 'GEODB_1_PORT_5432_TCP' in os.environ:
+    DATABASE_URL = 'postgis://docker:docker@%s/geo' % os.environ['GEODB_1_PORT_5432_TCP'].replace('tcp://', '')
+# Travis
+else:
+    DATABASE_URL = 'postgis:///geo'
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geo',
-        'USER': 'docker',
-        'PASSWORD': 'docker',
-        'HOST': os.environ.get('GEODB_1_PORT_5432_TCP_ADDR'),
-        'PORT': os.environ.get('GEODB_1_PORT_5432_TCP_PORT'),
-    }
+    'default': dj_database_url.parse(DATABASE_URL)
 }
 
 # Internationalization
@@ -82,3 +84,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+if 'SENTRY_DSN' in os.environ:
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'raven.contrib.django.raven_compat',
+    )
+
+    RAVEN_CONFIG = {
+        'dsn': os.environ['SENTRY_DSN'],
+    }
+

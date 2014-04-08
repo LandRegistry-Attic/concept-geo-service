@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: gunicorn concept_geo_service.wsgi:application
