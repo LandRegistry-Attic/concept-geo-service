@@ -40,15 +40,8 @@ class TitlesResource(DjangoResource):
         result = None
         if partially_contained_by:
             result =  models.Title.objects.filter(extent__intersects=partially_contained_by)
-        # elif near:
-        #     return models.Title.objects.filter(extent__contains=partially_contained_by)
+
         else:
             result = models.Title.objects.all()
         return result
 
-        # partially_contained_by = self.request.GET.get('partially_contained_by', None)
-        # return partially_contained_by
-        #
-        # print partially_contained_by
-        #
-        # return models.Title.objects.all()
