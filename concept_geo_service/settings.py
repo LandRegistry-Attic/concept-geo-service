@@ -18,14 +18,13 @@ import dj_database_url
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2ue!jv99=pf$=-4s=336sy%al+0@0*i1%ea&7@v9rlo-@^w2(r'
+SECRET_KEY = os.environ.get('SECRET_KEY', '2ue!jv99=pf$=-4s=336sy%al+0@0*i1%ea&7@v9rlo-@^w2(r')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DEBUG', 'True') == 'True')
+TEMPLATE_DEBUG = DEBUG
 
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = filter(None, os.environ.get('ALLOWED_HOSTS', '').split(','))
 
 
 # Application definition
