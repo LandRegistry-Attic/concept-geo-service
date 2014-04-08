@@ -1,4 +1,5 @@
 Django==1.6.2
+dj-database-url==0.3.0
 gunicorn==18.0
 psycopg2
 geojson==1.0.6
