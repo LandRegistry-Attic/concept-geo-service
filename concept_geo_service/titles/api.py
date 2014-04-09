@@ -42,6 +42,7 @@ class TitlesResource(DjangoResource):
         if partially_contained_by:
             result =  models.Title.objects.filter(extent__intersects=partially_contained_by)
         elif near:
+            
             return models.Title.objects.filter(extent__distance_lte=(near, D(km=50))).distance(near).order_by('distance')[:25]
         else:
             result = models.Title.objects.all()

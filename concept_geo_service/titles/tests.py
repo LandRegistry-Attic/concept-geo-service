@@ -175,7 +175,7 @@ class TitleResourceTest(TestCase):
             }
         }), content_type='application/json')
 
-        rv = self.client.get('/titles?near={"type": "Point","coordinates": [1.0546875, 16.720385051694]}')
+        rv = self.client.get('/titles?near={"type": "Point","coordinates": [1.0546875, 16.720385051694], "crs": {"type": "name","properties": {"name": "EPSG:3857"}}}')
         self.assertEqual(json.loads(rv.content), {
                     u"objects": [{
                         u"title_number": u"AB1234",
@@ -278,7 +278,7 @@ class TitleResourceTest(TestCase):
         }), content_type='application/json')
 
         #Norway
-        rv = self.client.get('/titles?near={"type": "Point","coordinates": [15.46, 60.9]}')
+        rv = self.client.get('/titles?near={"type": "Point","coordinates": [15.46, 60.9], "crs": {"type": "name","properties": {"name": "EPSG:3857"}}}')
         self.assertEqual(json.loads(rv.content), {
                     u"objects": []
                 })
