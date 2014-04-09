@@ -15,9 +15,14 @@ class TitlesResource(DjangoResource):
         return True
 
     def prepare(self, data):
-        return json.loads(data.content)
+        if isinstance(data, models.Title):
+            return json.loads(data.content)
+        else:
+            return data
 
     def create(self):
+        if not self.data.get('content', {}).get('extent'):
+            return {}
 
         #create a new entry
         title = models.Title()
