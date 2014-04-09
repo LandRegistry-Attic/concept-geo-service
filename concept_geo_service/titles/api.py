@@ -1,6 +1,8 @@
 from restless.dj import DjangoResource
 from django.contrib.gis.measure import Distance, D
 from django.http import HttpResponse
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.gdal import CoordTransform, SpatialReference
 import models
 import json
 
@@ -48,8 +50,11 @@ class TitlesResource(DjangoResource):
         if partially_contained_by:
             result =  models.Title.objects.filter(extent__intersects=partially_contained_by)
         elif near:
-            
-            return models.Title.objects.filter(extent__distance_lte=(near, D(km=50))).distance(near).order_by('distance')[:25]
+            pnt = GEOSGeometry(near, 4326)
+            transformer = CoordTransform(SpatialReference(4326), SpatialReference(3857))
+            pnt.transform(transformer)
+
+            return models.Title.objects.filter(extent__distance_lte=(pnt, D(km=50))).distance(pnt).order_by('distance')[:25]
         else:
             result = models.Title.objects.all()
         return result
@@ -60,4 +65,3 @@ class TitlesResource(DjangoResource):
         resp = HttpResponse(data, content_type='application/json')
         resp.status_code = status
         return resp
-

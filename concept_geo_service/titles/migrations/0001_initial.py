@@ -11,7 +11,9 @@ class Migration(SchemaMigration):
         # Adding model 'Title'
         db.create_table(u'titles_title', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('extent', self.gf('django.contrib.gis.db.models.fields.GeometryField')()),
+            ('title_number', self.gf('django.db.models.fields.TextField')()),
+            ('content', self.gf('django.db.models.fields.TextField')()),
+            ('extent', self.gf('django.contrib.gis.db.models.fields.GeometryField')(srid=3857)),
         ))
         db.send_create_signal(u'titles', ['Title'])
 
@@ -24,8 +26,10 @@ class Migration(SchemaMigration):
     models = {
         u'titles.title': {
             'Meta': {'object_name': 'Title'},
-            'extent': ('django.contrib.gis.db.models.fields.GeometryField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+            'content': ('django.db.models.fields.TextField', [], {}),
+            'extent': ('django.contrib.gis.db.models.fields.GeometryField', [], {'srid': '3857'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title_number': ('django.db.models.fields.TextField', [], {})
         }
     }
 

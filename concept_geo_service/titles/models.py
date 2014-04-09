@@ -6,6 +6,6 @@ class Title(models.Model):
 
 	title_number = models.TextField()
 	content = models.TextField()
-	extent = models.GeometryField()
+	extent = models.GeometryField(srid=3857)
 
 	objects = models.GeoManager()
