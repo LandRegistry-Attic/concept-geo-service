@@ -10,7 +10,7 @@ GET
 
 near - Request titles near a EPSG 4326 point.
 
-partially_contained_by - Request titles contained or partially contained by EPSG 4326 polygon.
+partially_contained_by - Request titles contained or partially contained by EPSG 3857 polygon.
 
 ###Examples queries
 
