@@ -100,7 +100,8 @@ partially_contained_by - Request titles contained or partially contained by EPSG
     ]
 }
 
-
+###Example client
+[This](https://github.com/LandRegistry/concept-my-property/blob/master/static/javascripts/map-lasso-search.js) example allows the user to draw a polygon on a map and displays the set of titles contained within the polygon.
 
 
 # /titles-revisions
